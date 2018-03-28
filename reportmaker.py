@@ -172,15 +172,15 @@ class Report_cmd(cmd.Cmd):
 		Then creates the png, html, and docx files"""
 		try:
 			upper = float(arg)
-			test = {
-			lambda u : u > 100: lambda u : self._report.set_scale(0, u, 25),
-			lambda u : u > 50: lambda u : self._report.set_scale(0, u, 10),
-			lambda u : u > 10: lambda u : self._report.set_scale(0, u, 5),
-			lambda u : True: lambda u : self._report.set_scale(0, u, 2)
-			}
-			for key in test:
-				if key(upper):
-					test[key](upper)
+			test = [
+				(100, 25),
+				(50, 10),
+				(10, 5),
+				(0, 2)
+			]
+			for (limit, scale) in test:
+				if upper > limit:
+					self._report.set_scale(0, upper, scale)
 					break
 		
 			print("upper y limit set to : ", upper)
